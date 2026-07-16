@@ -1,0 +1,26 @@
+﻿# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Node
+node_modules/
+
+# Git
+.git/
+
+# 大文件 - PDF 书不提交到 GitHub（太大）
+books/*.pdf
+*.pdf
+
+# 截图
+screenshots/
+
+# 系统文件
+*.lock
+.DS_Store
+Thumbs.db
+
+# 临时文件
+temp*.txt

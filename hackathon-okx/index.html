@@ -1,0 +1,326 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendVision AI — 趋势交易法智能分析系统 | OKX AI Hackathon</title>
+    <meta name="description" content="基于趋势交易理论的 AI 量化分析系统，双周期验证、量化评分10分制，一键输出交易建议。OKX AI Genesis Hackathon 参赛作品">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+        * { font-family: 'Inter', -apple-system, sans-serif; }
+        code, .mono { font-family: 'JetBrains Mono', monospace; }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
+        .gradient-text { background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-card { background: linear-gradient(135deg, rgba(96,165,250,0.1), rgba(167,139,250,0.1)); border: 1px solid rgba(96,165,250,0.2); }
+        .gradient-card-2 { background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.02)); border: 1px solid rgba(34,197,94,0.15); }
+        .gradient-card-3 { background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(251,191,36,0.02)); border: 1px solid rgba(251,191,36,0.15); }
+        .glow { box-shadow: 0 0 40px rgba(96,165,250,0.15); }
+        .glow-green { box-shadow: 0 0 40px rgba(34,197,94,0.1); }
+        .metric-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s ease; backdrop-filter: blur(10px); }
+        .metric-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(96,165,250,0.12); border-color: rgba(96,165,250,0.3); }
+        .code-block { background: #0f172a; border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.06); }
+        .code-block code { color: #a5d6ff; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; }
+        .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        .float { animation: float 3s ease-in-out infinite; }
+        html { scroll-behavior: smooth; }
+        .terminal-bar { display: flex; gap: 6px; align-items: center; padding: 8px 12px; background: #1e293b; border-radius: 12px 12px 0 0; }
+        .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .section-title { position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 40px; height: 3px; background: linear-gradient(90deg, #60a5fa, #a78bfa); border-radius: 2px; }
+        @media (max-width: 640px) { .code-block code { font-size: 11px; } .hero-title { font-size: 2.5rem; } }
+    </style>
+</head>
+<body class="gradient-bg text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 border-b border-white/10 backdrop-blur-xl bg-[#0f172a]/80" x-data="{ open: false }">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold text-sm float">TV</div>
+                <span class="font-semibold text-lg">TrendVision <span class="text-blue-400">AI</span></span>
+            </div>
+            <div class="hidden sm:flex items-center gap-6 text-sm text-gray-400">
+                <a href="#features" class="hover:text-white transition">功能</a>
+                <a href="#backtest" class="hover:text-white transition">回测</a>
+                <a href="#architecture" class="hover:text-white transition">架构</a>
+                <a href="#demo" class="hover:text-white transition">演示</a>
+                <a href="https://github.com/yht0030-cyber/trendvision-ai" target="_blank" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition font-medium text-white text-xs flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="pt-32 pb-24 px-4 sm:px-6 max-w-6xl mx-auto text-center relative">
+        <div class="absolute top-40 left-10 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
+        <div class="absolute top-20 right-10 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl"></div>
+        
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-sm text-blue-400 mb-8">
+            <span class="pulse-dot"></span> OKX AI Genesis Hackathon
+        </div>
+        <h1 class="hero-title text-5xl sm:text-6xl md:text-7xl font-bold leading-tight mb-6">
+            <span class="gradient-text">趋势交易法</span><br>
+            <span>AI 量化分析系统</span>
+        </h1>
+        <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            基于趋势交易理论 · 双周期确认 · 量化评分 10 分制 · 4H 方向过滤
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 mb-16">
+            <a href="#demo" class="px-8 py-3.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl font-semibold text-white hover:opacity-90 transition glow">🎬 看演示</a>
+            <a href="#features" class="px-8 py-3.5 bg-white/10 rounded-xl font-semibold text-white hover:bg-white/20 transition">了解功能 ↓</a>
+        </div>
+
+        <!-- Terminal Demo -->
+        <div class="max-w-2xl mx-auto text-left">
+            <div class="terminal-bar">
+                <div class="terminal-dot bg-red-500"></div>
+                <div class="terminal-dot bg-yellow-500"></div>
+                <div class="terminal-dot bg-green-500"></div>
+                <span class="ml-2 text-xs text-gray-500">Terminal — TrendVision AI</span>
+            </div>
+            <div class="code-block rounded-t-none">
+                <code>
+<span style="color:#22c55e">$</span> python monitor.py BTC<br><br>
+<span style="color:#6366f1">╔══════════════════════════════════════════════╗</span>
+<span style="color:#6366f1">║</span>  <span style="color:#60a5fa;font-weight:bold">BTC 1H 趋势交易法分析结果</span>              <span style="color:#6366f1">║</span>
+<span style="color:#6366f1">╚══════════════════════════════════════════════╝</span><br><br>
+<span style="color:#94a3b8">  当前价格:</span> <span style="color:#fff;font-weight:bold">62,845.30</span> USDT<br>
+<span style="color:#94a3b8">  量化评分:</span> <span style="color:#22c55e;font-weight:bold">8/10</span> <span style="color:#64748b">(趋势线+A点突破 额外+1)</span><br>
+<span style="color:#94a3b8">  交易方向:</span> <span style="color:#22c55e;font-weight:bold">📈 做多</span><br>
+<span style="color:#94a3b8">  入场区间:</span> <span style="color:#facc15">62,800 ~ 63,200</span><br>
+<span style="color:#94a3b8">  止损参考:</span> <span style="color:#ef4444">61,500</span> <span style="color:#64748b">(-2.1%)</span><br>
+<span style="color:#94a3b8">  4H 方向:</span> 向上 <span style="color:#22c55e">✅</span><br><br>
+<span style="color:#64748b">  ── 系统信号 ──</span><br>
+  ✓ 趋势线突破  ✓ 拐点线支撑<br>
+  ✓ 分界点A上方阻力: 63,500<br><br>
+<span style="color:#f59e0b">  ⚠ 严格止损 | 单笔 ≤ 1/10 总风险金</span>
+                </code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="py-12 border-y border-white/5">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+                <div class="text-3xl font-bold gradient-text">3 秒</div>
+                <div class="text-sm text-gray-500 mt-1">出结论</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold gradient-text">90%</div>
+                <div class="text-sm text-gray-500 mt-1">XAUUSD 胜率</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold gradient-text">10 分</div>
+                <div class="text-sm text-gray-500 mt-1">量化评分制</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold gradient-text">1 条</div>
+                <div class="text-sm text-gray-500 mt-1">命令搞定</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-24 px-4 sm:px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="section-title text-3xl sm:text-4xl font-bold mb-4">核心功能</h2>
+            <p class="text-gray-400 text-lg mt-4">从行情分析到交易纪律，覆盖全流程</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="metric-card p-6 rounded-xl">
+                <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center text-2xl mb-4">📊</div>
+                <h3 class="font-semibold text-lg mb-2">双周期验证</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">1H + 4H 双周期确认，4H 方向过滤死规则——下降趋势一律不做多，上升趋势一律不做空。</p>
+            </div>
+            <div class="metric-card p-6 rounded-xl">
+                <div class="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-xl flex items-center justify-center text-2xl mb-4">🎯</div>
+                <h3 class="font-semibold text-lg mb-2">量化评分 10 分制</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">基础择时 + 系统工具双维评分，≥5 分触发。趋势线+分界点A同时突破为最强信号。</p>
+            </div>
+            <div class="metric-card p-6 rounded-xl">
+                <div class="w-12 h-12 bg-green-500/10 text-green-400 rounded-xl flex items-center justify-center text-2xl mb-4">🛡️</div>
+                <h3 class="font-semibold text-lg mb-2">纪律约束引擎</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">三大禁区内建：不逆势加仓、不移止损、单笔不超 1/10 风险金。</p>
+            </div>
+            <div class="metric-card p-6 rounded-xl">
+                <div class="w-12 h-12 bg-yellow-500/10 text-yellow-400 rounded-xl flex items-center justify-center text-2xl mb-4">⚡</div>
+                <h3 class="font-semibold text-lg mb-2">一键监控</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">`python monitor.py` 3 秒出结论：方向→评分→入场→止损。支持持续监控自动检查。</p>
+            </div>
+            <div class="metric-card p-6 rounded-xl">
+                <div class="w-12 h-12 bg-red-500/10 text-red-400 rounded-xl flex items-center justify-center text-2xl mb-4">📈</div>
+                <h3 class="font-semibold text-lg mb-2">回测引擎</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">内置回测框架，真实历史数据验证。实盘与回测共用同一评分函数。</p>
+            </div>
+            <div class="metric-card p-6 rounded-xl">
+                <div class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center justify-center text-2xl mb-4">🔄</div>
+                <h3 class="font-semibold text-lg mb-2">自动复盘</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">每笔交易自动记录，每 10 笔自动分析胜率、盈亏比、最大连亏、共同特征。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Backtest -->
+    <section id="backtest" class="py-24 px-4 sm:px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="section-title text-3xl sm:text-4xl font-bold mb-4">回测数据</h2>
+            <p class="text-gray-400 text-lg mt-4">真实历史 K 线数据 · Gate.io / 华尔街见闻</p>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-6">
+            <div class="gradient-card p-8 rounded-xl text-center hover:scale-[1.02] transition">
+                <div class="text-5xl font-bold gradient-text mb-2">90%</div>
+                <div class="text-gray-400 text-sm uppercase tracking-wider mb-2 font-medium">XAUUSD</div>
+                <div class="text-gray-500 text-xs">4H方向过滤后胜率 71% → 90%</div>
+                <div class="mt-4 pt-4 border-t border-white/5 text-xs text-gray-500">
+                    拐点线 93% · 趋势线 67% · A点 71%
+                </div>
+            </div>
+            <div class="gradient-card p-8 rounded-xl text-center hover:scale-[1.02] transition">
+                <div class="text-5xl font-bold gradient-text mb-2">81%</div>
+                <div class="text-gray-400 text-sm uppercase tracking-wider mb-2 font-medium">BTC</div>
+                <div class="text-gray-500 text-xs">量化信号综合胜率</div>
+                <div class="mt-4 pt-4 border-t border-white/5 text-xs text-gray-500">
+                    拐点线 81% · A点 82% · 趋势线 66%
+                </div>
+            </div>
+            <div class="gradient-card p-8 rounded-xl text-center hover:scale-[1.02] transition">
+                <div class="text-5xl font-bold gradient-text mb-2">70%</div>
+                <div class="text-gray-400 text-sm uppercase tracking-wider mb-2 font-medium">ETH</div>
+                <div class="text-gray-500 text-xs">Qjt 优化后持续提升中</div>
+                <div class="mt-4 pt-4 border-t border-white/5 text-xs text-gray-500">
+                    拐点线 87% · 趋势线 43% · A点 11%*
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture" class="py-24 px-4 sm:px-6 max-w-5xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="section-title text-3xl sm:text-4xl font-bold mb-4">系统架构</h2>
+            <p class="text-gray-400 text-lg mt-4">四层架构，从数据到决策</p>
+        </div>
+        <div class="space-y-4">
+            <div class="gradient-card p-5 rounded-xl flex items-center gap-4">
+                <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 font-bold shrink-0">1</div>
+                <div>
+                    <div class="font-semibold">数据获取层</div>
+                    <div class="text-sm text-gray-400">Gate.io API · 华尔街见闻 API · 1H + 4H K 线</div>
+                </div>
+            </div>
+            <div class="gradient-card p-5 rounded-xl flex items-center gap-4">
+                <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center text-purple-400 font-bold shrink-0">2</div>
+                <div>
+                    <div class="font-semibold">分析引擎层</div>
+                    <div class="text-sm text-gray-400">Qjt区间 · 趋势线 · 拐点线 · 分界点A · RSI · K线形态 · 波浪 · ATR</div>
+                </div>
+            </div>
+            <div class="gradient-card p-5 rounded-xl flex items-center gap-4">
+                <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center text-green-400 font-bold shrink-0">3</div>
+                <div>
+                    <div class="font-semibold">信号评分层</div>
+                    <div class="text-sm text-gray-400">10分制量化 · 4H方向过滤 · 趋势线+A点最强信号</div>
+                </div>
+            </div>
+            <div class="gradient-card p-5 rounded-xl flex items-center gap-4">
+                <div class="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center text-yellow-400 font-bold shrink-0">4</div>
+                <div>
+                    <div class="font-semibold">输出层</div>
+                    <div class="text-sm text-gray-400">monitor.py · 方向/评分/入场/止损 · 持续监控</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-24 px-4 sm:px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="section-title text-3xl sm:text-4xl font-bold mb-4">使用演示</h2>
+            <p class="text-gray-400 text-lg mt-4">打开终端，一条命令就够了</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <div class="terminal-bar rounded-t-xl">
+                    <div class="terminal-dot bg-red-500"></div>
+                    <div class="terminal-dot bg-yellow-500"></div>
+                    <div class="terminal-dot bg-green-500"></div>
+                    <span class="ml-2 text-xs text-gray-500">单个品种</span>
+                </div>
+                <div class="code-block rounded-t-none">
+                    <code>
+<span style="color:#22c55e">$</span> python monitor.py XAUUSD<br><br>
+<span style="color:#6366f1">══ XAUUSD 信号摘要 ══</span><br><br>
+<span style="color:#94a3b8">  方向:</span> <span style="color:#22c55e">📈 做多</span><br>
+<span style="color:#94a3b8">  评分:</span> <span style="color:#22c55e;font-weight:bold">7/10</span><br>
+<span style="color:#94a3b8">  入场:</span> 2,365.50<br>
+<span style="color:#94a3b8">  止损:</span> 2,348.00<br>
+<span style="color:#94a3b8">  建议:</span> 顺势做多，严格止损
+                    </code>
+                </div>
+            </div>
+            <div>
+                <div class="terminal-bar rounded-t-xl">
+                    <div class="terminal-dot bg-red-500"></div>
+                    <div class="terminal-dot bg-yellow-500"></div>
+                    <div class="terminal-dot bg-green-500"></div>
+                    <span class="ml-2 text-xs text-gray-500">全品种扫描</span>
+                </div>
+                <div class="code-block rounded-t-none">
+                    <code>
+<span style="color:#22c55e">$</span> python monitor.py<br><br>
+<span style="color:#6366f1">══ 全品种扫描 ══</span><br><br>
+<span style="color:#94a3b8">  BTC:</span> <span style="color:#22c55e">📈 8/10 做多</span><br>
+<span style="color:#94a3b8">  XAUUSD:</span> <span style="color:#22c55e">📈 7/10 做多</span><br>
+<span style="color:#94a3b8">  ETH:</span> <span style="color:#f59e0b">📊 4/10 观望</span><br><br>
+<span style="color:#64748b">  山寨推荐: SOL, BNB, LINK</span>
+                    </code>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-10">
+            <div class="inline-flex items-center gap-2 px-6 py-3 bg-white/5 rounded-xl text-sm text-gray-400">
+                <span class="text-blue-400">💡</span> 持续监控模式：<code class="mono text-blue-300">python monitor.py --loop</code>（每30分钟自动检查）
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 px-4 sm:px-6 max-w-4xl mx-auto text-center">
+        <div class="gradient-card p-12 sm:p-16 rounded-2xl">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4">用纪律替代感觉</h2>
+            <p class="text-gray-400 mb-8 max-w-lg mx-auto text-lg">
+                TrendVision AI 不能保证盈利，但能帮你做到：<br>
+                <strong class="text-white">信号来了就跑，没信号就不动。</strong>
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://github.com/yht0030-cyber/trendvision-ai" target="_blank" class="px-8 py-3.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl font-semibold text-white hover:opacity-90 transition glow flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    查看源代码
+                </a>
+                <a href="https://www.hackquest.io/zh-cn/hackathons/OKXAI-Genesis-Hackathon" target="_blank" class="px-8 py-3.5 bg-white/10 rounded-xl font-semibold text-white hover:bg-white/20 transition">
+                    🏆 比赛详情
+                </a>
+            </div>
+            <div class="mt-10 pt-6 border-t border-white/5 flex flex-wrap justify-center gap-6 text-xs text-gray-600">
+                <span>OKX AI Genesis Hackathon</span>
+                <span>#OKXAI</span>
+                <span>TrendVision AI v1.0</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-8 px-4 text-center text-gray-600 text-xs">
+        <p>TrendVision AI — 基于趋势交易理论的 AI 量化分析系统</p>
+        <p class="mt-2">⚠ 本系统为研究工具，不构成投资建议。交易有风险，决策须谨慎。</p>
+        <p class="mt-4">Made with 🧠 for OKX AI Genesis Hackathon</p>
+    </footer>
+</body>
+</html>
+
+

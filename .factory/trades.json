@@ -1,0 +1,23 @@
+{
+  "trades": [
+    {
+      "id": 1,
+      "symbol": "BTC",
+      "direction": "long",
+      "entry": 62710.0,
+      "stop_loss": 62200.0,
+      "size": 0.5,
+      "leverage": 10,
+      "reason": "趋势线突破",
+      "open_time": "2026-06-09 22:52",
+      "open_ts": 1781016737.548683,
+      "exit_price": 63500.0,
+      "exit_time": "2026-06-09 22:52",
+      "exit_reason": "系统信号出场",
+      "pnl": 3950.0,
+      "pnl_pct": 12.6,
+      "system_compliant": true
+    }
+  ],
+  "reviews": []
+}
