@@ -1,31 +1,32 @@
-﻿# Python
+# Python
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*.class
+*.so
 .env
+venv/
+.venv/
 
 # Node
 node_modules/
 
-# Git
-.git/
+# IDE
+.vscode/
+.idea/
 
-# 大文件 - PDF 书不提交到 GitHub（太大）
-books/*.pdf
-*.pdf
-
-# 截图
-screenshots/
-
-# 系统文件
-*.lock
+# OS
 .DS_Store
 Thumbs.db
 
-# 临时文件
-temp*.txt
+# Data
+*.zip
+ccxt/
 
+# Large books (not needed for hackathon)
+books/*.pdf
+books/*.md
 
-
-# 排除CCXT库（太大，运行时可pip安装）
-.factory/skills/ccxt/
+# Old/unused
+AGENTS_old.md
+AGENTS_CLEAN.md
+AGENTS.md

@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrendVision AI Demo Video</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #0f172a; color: white; overflow: hidden; }
+  .slide {
+    position: absolute; width: 100%; height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.8s;
+    padding: 60px;
+  }
+  .slide.active { opacity: 1; z-index: 10; }
+  
+  .title { font-size: 64px; font-weight: 800; background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .subtitle { font-size: 24px; color: #94a3b8; margin-top: 16px; }
+  .tag { font-size: 14px; color: #64748b; margin-top: 30px; letter-spacing: 3px; }
+  
+  .big-num { font-size: 100px; font-weight: 800; }
+  .point { font-size: 22px; color: #cbd5e1; margin: 12px 0; text-align: center; line-height: 1.6; }
+  .point span { color: #60a5fa; font-weight: 600; }
+  .label { font-size: 14px; color: #64748b; margin-top: 4px; }
+  
+  .terminal {
+    background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+    padding: 30px 40px; font-family: 'Courier New', monospace; font-size: 18px; line-height: 1.8;
+    width: 700px; text-align: left;
+  }
+  .terminal .prompt { color: #22c55e; }
+  .terminal .output { color: #94a3b8; }
+  .terminal .highlight { color: #22c55e; font-weight: bold; }
+  .terminal .blue { color: #60a5fa; }
+  
+  .stats-grid { display: flex; gap: 60px; justify-content: center; margin-top: 40px; }
+  .stat { text-align: center; }
+  
+  .progress-bar { position: fixed; bottom: 0; left: 0; height: 3px; background: linear-gradient(90deg, #3b82f6, #a855f7); transition: width 1s; z-index: 100; }
+  .slide-counter { position: fixed; bottom: 20px; right: 30px; color: #475569; font-size: 14px; z-index: 100; }
+  
+  @media (max-width: 768px) {
+    .title { font-size: 40px; }
+    .subtitle { font-size: 18px; }
+    .big-num { font-size: 60px; }
+    .point { font-size: 16px; }
+    .terminal { width: 90%; font-size: 14px; padding: 20px; }
+    .stats-grid { gap: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide active" id="s0">
+  <div class="title">TrendVision AI</div>
+  <div class="subtitle">AI-Powered Quantitative Trading Analysis System</div>
+  <div class="tag">OKX AI Genesis Hackathon  ·  #OKXAI</div>
+</div>
+
+<!-- Slide 2: Pain Points -->
+<div class="slide" id="s1">
+  <div style="font-size:18px;color:#64748b;margin-bottom:20px;letter-spacing:2px">THE PROBLEM</div>
+  <div class="point">😫  <span>No Discipline</span>  —  Trading on emotions, revenge trading</div>
+  <div class="point">🤯  <span>Information Overload</span>  —  50 indicators, which one to trust?</div>
+  <div class="point">😵  <span>No Review</span>  —  Same mistakes repeated forever</div>
+</div>
+
+<!-- Slide 3: Solution -->
+<div class="slide" id="s2">
+  <div style="font-size:18px;color:#64748b;margin-bottom:20px;letter-spacing:2px">THE SOLUTION</div>
+  <div class="title" style="font-size:48px">One Command</div>
+  <div class="subtitle" style="margin-top:20px">Direction · Score · Entry · Stop-Loss</div>
+  <div style="font-size:16px;color:#64748b;margin-top:40px">Turn classical trading theory into executable code</div>
+</div>
+
+<!-- Slide 4: Demo -->
+<div class="slide" id="s3">
+  <div style="font-size:18px;color:#64748b;margin-bottom:20px;letter-spacing:2px">LIVE DEMO</div>
+  <div class="terminal">
+    <div><span class="prompt">$</span> python monitor.py BTC</div>
+    <div style="height:12px"></div>
+    <div><span class="blue">══ BTC 信号摘要 ══</span></div>
+    <div><span class="output">  方向: </span><span class="highlight">📈 做多</span></div>
+    <div><span class="output">  评分: </span><span class="highlight">8/10</span></div>
+    <div><span class="output">  入场: 62,800 ~ 63,200</span></div>
+    <div><span class="output">  止损: </span><span style="color:#ef4444">61,500</span></div>
+  </div>
+</div>
+
+<!-- Slide 5: Architecture -->
+<div class="slide" id="s4">
+  <div style="font-size:18px;color:#64748b;margin-bottom:30px;letter-spacing:2px">ARCHITECTURE</div>
+  <div class="point" style="color:#3b82f6;font-weight:600">1. Data Layer  —  Gate.io + 华尔街见闻 API</div>
+  <div class="point" style="color:#8b5cf6;font-weight:600">2. Analysis Engine  —  Trends · Channels · RSI · K-Lines</div>
+  <div class="point" style="color:#22c55e;font-weight:600">3. Scoring Layer  —  10-Point System · 4H Filter</div>
+  <div class="point" style="color:#f59e0b;font-weight:600">4. Output Layer  —  monitor.py · 3-Second Decision</div>
+</div>
+
+<!-- Slide 6: Backtest -->
+<div class="slide" id="s5">
+  <div style="font-size:18px;color:#64748b;margin-bottom:20px;letter-spacing:2px">BACKTEST RESULTS</div>
+  <div class="stats-grid">
+    <div class="stat"><div class="big-num" style="color:#22c55e">90%</div><div class="label">XAUUSD</div></div>
+    <div class="stat"><div class="big-num" style="color:#3b82f6">81%</div><div class="label">BTC</div></div>
+    <div class="stat"><div class="big-num" style="color:#a855f7">70%</div><div class="label">ETH</div></div>
+  </div>
+  <div style="font-size:14px;color:#64748b;margin-top:30px">4H Directional Filter: XAUUSD 71% → 90%</div>
+</div>
+
+<!-- Slide 7: Features -->
+<div class="slide" id="s6">
+  <div style="font-size:18px;color:#64748b;margin-bottom:20px;letter-spacing:2px">KEY FEATURES</div>
+  <div class="point">✅  <span>Dual Timeframe</span>  —  1H + 4H confirmation</div>
+  <div class="point">✅  <span>10-Point Scoring</span>  —  ≥5 triggers signal</div>
+  <div class="point">✅  <span>4H Direction Filter</span>  —  Strict rule, no exceptions</div>
+  <div class="point">✅  <span>Risk Control</span>  —  Three forbidden zones built-in</div>
+</div>
+
+<!-- Slide 8: Thank You -->
+<div class="slide" id="s7">
+  <div class="title" style="font-size:56px">Thank You</div>
+  <div class="subtitle" style="margin-top:20px;font-size:20px;color:#60a5fa">github.com/yht0030-cyber/trendvision-ai</div>
+  <div class="tag" style="margin-top:40px">Data Over Emotion · #OKXAI</div>
+</div>
+
+<div class="progress-bar" id="progress" style="width:0%"></div>
+<div class="slide-counter" id="counter">1 / 8</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  const total = slides.length;
+
+  function showSlide(idx) {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[idx].classList.add('active');
+    document.getElementById('progress').style.width = ((idx + 1) / total * 100) + '%';
+    document.getElementById('counter').textContent = (idx + 1) + ' / ' + total;
+  }
+
+  // Auto-advance every 4 seconds (total ~32 seconds)
+  setInterval(() => {
+    current = (current + 1) % total;
+    showSlide(current);
+  }, 4000);
+
+  // Click to manually advance
+  document.addEventListener('click', () => {
+    current = (current + 1) % total;
+    showSlide(current);
+  });
+</script>
+</body>
+</html>

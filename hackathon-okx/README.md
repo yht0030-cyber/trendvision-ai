@@ -213,3 +213,32 @@ MIT
 
 
 
+
+---
+
+## ✅ Hackathon Submission Checklist
+
+### Done:
+- [x] GitHub repository: https://github.com/yht0030-cyber/trendvision-ai
+- [x] Product landing page: https://yht0030-cyber.github.io/trendvision-ai/
+- [x] Architecture diagram
+- [x] Logo
+- [x] Presentation (PPT.md)
+- [x] Pitch deck (PitchDeck.md + PPTX)
+
+### To Do (by user):
+- [ ] Post X/Twitter with #OKXAI hashtag
+- [ ] Submit on HackQuest.io
+- [ ] Submit Google Form
+- [ ] ASP registration on OKX.AI
+- [ ] Record 90s demo video
+
+## Quick Stats
+| Metric | Value |
+|--------|-------|
+| Code Files | 6 Python scripts |
+| Analysis Engine | 111KB core |
+| Trading Rules | 20 hard rules |
+| Backtest Pairs | BTC, ETH, XAUUSD |
+| Best Win Rate | XAUUSD 90% |
+| Time to Analysis | ~3 seconds |
