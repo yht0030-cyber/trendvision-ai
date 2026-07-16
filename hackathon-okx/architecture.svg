@@ -1,0 +1,102 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="'Segoe UI','Inter',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#a855f7"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="100%" style="stop-color:#10b981"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#eab308"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="560" fill="url(#bg)" rx="12"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#e2e8f0" font-size="22" font-weight="700">TrendVision AI — 系统架构</text>
+  <text x="400" y="62" text-anchor="middle" fill="#64748b" font-size="13">四层架构 · 从数据到决策</text>
+  
+  <!-- Layer 1: Data -->
+  <rect x="180" y="85" width="440" height="80" rx="10" fill="url(#g1)" opacity="0.15" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="400" y="112" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="700">① 数据获取层</text>
+  <text x="400" y="135" text-anchor="middle" fill="#94a3b8" font-size="12">Gate.io API (BTC/ETH) · 华尔街见闻 API (XAUUSD)</text>
+  <text x="400" y="153" text-anchor="middle" fill="#64748b" font-size="11">1H + 4H K 线数据 · 自动拉取</text>
+  
+  <!-- Arrow -->
+  <line x1="400" y1="165" x2="400" y2="195" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10" fill="#475569"/></marker></defs>
+  
+  <!-- Layer 2: Engine -->
+  <rect x="80" y="195" width="640" height="130" rx="10" fill="url(#g2)" opacity="0.12" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="400" y="222" text-anchor="middle" fill="#a78bfa" font-size="15" font-weight="700">② 分析引擎（趋势交易理论）</text>
+  
+  <rect x="105" y="238" width="135" height="35" rx="6" fill="#8b5cf6" opacity="0.2"/>
+  <text x="172" y="260" text-anchor="middle" fill="#c4b5fd" font-size="11">Qjt 区间分析</text>
+  
+  <rect x="255" y="238" width="120" height="35" rx="6" fill="#8b5cf6" opacity="0.2"/>
+  <text x="315" y="260" text-anchor="middle" fill="#c4b5fd" font-size="11">趋势线检测</text>
+  
+  <rect x="390" y="238" width="120" height="35" rx="6" fill="#8b5cf6" opacity="0.2"/>
+  <text x="450" y="260" text-anchor="middle" fill="#c4b5fd" font-size="11">拐点线通道</text>
+  
+  <rect x="525" y="238" width="170" height="35" rx="6" fill="#8b5cf6" opacity="0.2"/>
+  <text x="610" y="260" text-anchor="middle" fill="#c4b5fd" font-size="11">分界点 A 识别</text>
+  
+  <rect x="105" y="280" width="120" height="35" rx="6" fill="#8b5cf6" opacity="0.15"/>
+  <text x="165" y="302" text-anchor="middle" fill="#a78bfa" font-size="11">RSI 背离检测</text>
+  
+  <rect x="240" y="280" width="135" height="35" rx="6" fill="#8b5cf6" opacity="0.15"/>
+  <text x="307" y="302" text-anchor="middle" fill="#a78bfa" font-size="11">K线反转形态</text>
+  
+  <rect x="390" y="280" width="120" height="35" rx="6" fill="#8b5cf6" opacity="0.15"/>
+  <text x="450" y="302" text-anchor="middle" fill="#a78bfa" font-size="11">波浪计数</text>
+  
+  <rect x="525" y="280" width="170" height="35" rx="6" fill="#8b5cf6" opacity="0.15"/>
+  <text x="610" y="302" text-anchor="middle" fill="#a78bfa" font-size="11">ATR 波动率</text>
+  
+  <!-- Arrow -->
+  <line x1="400" y1="325" x2="400" y2="355" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- Layer 3: Scoring -->
+  <rect x="150" y="355" width="500" height="80" rx="10" fill="url(#g3)" opacity="0.12" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="400" y="382" text-anchor="middle" fill="#4ade80" font-size="15" font-weight="700">③ 信号评分层</text>
+  
+  <rect x="175" y="396" width="145" height="28" rx="5" fill="#22c55e" opacity="0.15"/>
+  <text x="247" y="415" text-anchor="middle" fill="#86efac" font-size="11">量化评分 10 分制</text>
+  
+  <rect x="335" y="396" width="145" height="28" rx="5" fill="#22c55e" opacity="0.15"/>
+  <text x="407" y="415" text-anchor="middle" fill="#86efac" font-size="11">4H 方向过滤</text>
+  
+  <rect x="495" y="396" width="135" height="28" rx="5" fill="#22c55e" opacity="0.15"/>
+  <text x="562" y="415" text-anchor="middle" fill="#86efac" font-size="11">趋势线+A点最强</text>
+  
+  <!-- Arrow -->
+  <line x1="400" y1="435" x2="400" y2="465" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- Layer 4: Output -->
+  <rect x="180" y="465" width="440" height="75" rx="10" fill="url(#g4)" opacity="0.12" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="400" y="492" text-anchor="middle" fill="#fbbf24" font-size="15" font-weight="700">④ 输出层</text>
+  
+  <rect x="210" y="504" width="170" height="28" rx="5" fill="#f59e0b" opacity="0.15"/>
+  <text x="295" y="523" text-anchor="middle" fill="#fde68a" font-size="11">monitor.py 一键监控</text>
+  
+  <rect x="395" y="504" width="200" height="28" rx="5" fill="#f59e0b" opacity="0.15"/>
+  <text x="495" y="523" text-anchor="middle" fill="#fde68a" font-size="11">方向 · 评分 · 入场 · 止损</text>
+</svg>
