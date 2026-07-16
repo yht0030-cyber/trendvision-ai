@@ -25,4 +25,7 @@ Thumbs.db
 # 临时文件
 temp*.txt
 
-# CCXT library (too large).factory/skills/ccxt/
+
+
+# 排除CCXT库（太大，运行时可pip安装）
+.factory/skills/ccxt/
